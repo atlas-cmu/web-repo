@@ -23,6 +23,16 @@ html, body {
   height: 196px;
 }
 
+.atlas-org {
+  width: 128px;
+  height: auto;
+  object-fit: contain;
+}
+
+.atlas-table {
+  width: 100%;
+}
+
 .atlas-avatar {
   border-radius: 50px;
   width: 128px;
@@ -118,22 +128,6 @@ html, body {
           align-items: center;
 }
 
-.demo-chart:nth-child(1) {
-  color: #ACEC00;
-}
-
-.demo-chart:nth-child(2) {
-  color: #00BBD6;
-}
-
-.demo-chart:nth-child(3) {
-  color: #BA65C9;
-}
-
-.demo-chart:nth-child(4) {
-  color: #EF3C79;
-}
-
 .atlas-contact {
   padding: 16px 32px;
   display: -webkit-flex;
@@ -145,27 +139,6 @@ html, body {
   -webkit-align-items: stretch;
       -ms-flex-align: stretch;
           align-items: stretch;
-}
-
-/* TODO: Find a proper solution to have the graphs
- * not float around outside their container in IE10/11.
- * Using a browserhacks.com solution for now.
- */
-_:-ms-input-placeholder, :root .demo-graphs {
-  min-height: 664px;
-}
-
-_:-ms-input-placeholder, :root .demo-graph {
-  max-height: 300px;
-}
-/* TODO end */
-
-.demo-graph:nth-child(1) {
-  color: #00b9d8;
-}
-
-.demo-graph:nth-child(2) {
-  color: #d9006e;
 }
 
 .demo-cards {

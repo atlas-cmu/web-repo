@@ -120,9 +120,9 @@ switching their group partway through the trace.
 
 3.8 wallclock_limit
 
-The requested time quota for the job. Typically ranges from 1 to 2160 minutes
-(i.e., 36 hours which is the max wall clock time for Trinity). There can be
-outliers of jobs with longer wallclock limits, however.
+The maximum allowed job duration in seconds. Typically ranges from 1 to 2160
+minutes (i.e., 36 hours which is the max wall clock time for Trinity). There
+can be outliers of jobs with longer wallclock limits, however.
 
 3.9 job_event_state
 
@@ -136,7 +136,7 @@ The state of the job at the time of the event. Possible values include:
 
 The type of queue required by the job, specified as a square bracket list of
 <QUEUE> [:<QUEUEINSTANCE>] requirements. For example: [batch:1]. Possible values
-include: ccm_queue, dat, standard.
+in this trace include: ccm_queue, dat, standard.
 
 3.11 submission_time
 
@@ -164,74 +164,120 @@ The time when the job met all fairness policies.
 
 3.16 tasks_allocated
 
-The number of tasks allocated to the job.
+The number of tasks allocated to the job. In most cases, this field is identical
+to the tasks_requested field.
 
 3.17 required_tasks_per_node
 
-The number of tasks required by the job.
+The number of tasks per node, as required by the job, or '-1' if no requirement
+was specified. In this trace the values found fall in [0, 32] but are mostly
+either 0 or 32.
 
 3.18 QOS
 
-The quality of service requested.
+The quality of service requested/assigned using the format <QOS_REQUESTED>
+[:<QOS_DELIVERED>]. For example: "hipriority:bottomfeeder". Possible values in
+this trace include: -:-, -:hpcdev, -:support, -:tos1, -:tos2, -:tos3, -:tos4,
+-:tos5, -:tos6, -:tos7, -:tos8, -:tos-exec.
 
 3.19 job_flags
 
-A list of job attributes. Please refer to MOAB documentation for the meaning of
-each attribute.
+Square bracket delimited list of job attributes. For example:
+[BACKFILL][PREEMPTEE]. The following flags show up in our trace:
+- PROCSPECIFIED: Job requested processors on command line
+- WIDERSVSEARCHALGO: Aims for earlier start times by relaxing the default
+  guarantee of finding the longest possible ranges of machines to satisfy job
+  request
+- RESTARTABLE: Job can be requeued/restarted if preempted
+- INTERACTIVE: Job needs interactive input from user to run
+- TEMPLATESAPPLIED: Job had all applicable templates applied ("this is this"
+  type of definition, found in Moab docs)
+- ADVRES: Job may only utilize accessible, reserved resources
+- GRESONLY: Use no compute resources (processors, memory, etc.), only generic
+  ones
+- NORMSTART: Job is internal system job and will not be started via the RM
+- BACKFILL: Job uses backfill to run
+- GLOBALQUEUE: Job directly submitted without any authentication
+- FSVIOLATION: Job started with a fairshare violation
+- PREEMPTOR: Job may preempt other PREEMPTEE jobs
 
 3.20 account_name
 
-The name of the account associated with the job.
+The name of the account associated with the job, if specified. Possible values
+in this trace include: ccm_queue, hpcdev, llnl-exec, NOACCT, support, tos1,
+tos2, tos3, tos4, tos5, tos6, tos7, tos8, tos-exec.
 
 3.21 executable
 
-The path to the executable.
+The full path of the job executable, if specified. 73% of JOBSTART events
+specify a path. Typically (for our trace), these paths fall under $HOME or
+/var/spool/moab/spool/.
 
 3.22 resource_manager_extension_string
 
-A list of job attributes specific to the resource manager. Please refer to MOAB
-documentation for the meaning of each attribute.
+Resource manager specific list of job attributes if specified. See the relevant
+MOAB documentation at http://docs.adaptivecomputing.com/9-0-3/MWM/Content/
+topics/moabWorkloadManager/topics/resourceManagers/rmextensions.html for more
+information.
 
 3.23 bypass_count
 
-The number of times the job was bypassed by lower priority jobs via backfill.
+The number of times the job was bypassed by lower priority jobs via backfill, or
+'-1' if not specified.
 
 3.24 proc_seconds_utilized
 
-The number of processor seconds used by the job.
+The number of processor seconds used by the job. Mostly zero in this trace.
 
 3.25 partition_name
 
-The name of the partition on which the job ran.
+The name of the partition on which the job ran. Possible values in this trace
+include: ALL, SHARED, trinity.
 
 3.26 dedicated_processors_per_task
 
-The number of processors required per task.
+The number of processors required per task. Mostly 1, with few exceptions using
+0 or 32 in this trace.
 
 3.27 allocated_host_list
 
-A list of hosts allocated to the job.
+A list of hosts allocated to the job. The list is colon (':') delimited, and
+each entry may represent a range. For example, "12:14-31:36-63" implies that the
+hosts allocated to the job were 12, 14 through 31, and 36 through 63. All ranges
+are inclusive.
 
 3.28 resource_manager_name
 
-The name of the resource manager.
+The name of the resource manager, if specified. In this trace, 23% of entries
+reference "internal", and 77% reference "trinity".
 
 3.29 reservation
 
-The name of the reservation required by the job.
+The name of the reservation required by the job, if specified. Most entries
+leave this empty, but for the rest, values fall in: DAT-marti, eotos, eotos.61,
+langer-tos8, ldms.33, ldms-DAT, ldms-DAT.41, LDMS-DAT.41, ldms-dat-prep.51,
+ldms_prep.59, nalu.64, nalu.65, nalu.66, rt113630, rt113630.17, rt113630.28,
+slownodes.
 
 3.30 job_message
 
 Incorporates messages from many systems, including the resource manager,
-scheduler, and administrative systems for that job.
+scheduler, and administrative systems for that job. In this trace, 8% of events
+carry a job message.
 
 3.31 completion_code
 
-The job exit code.
+The job exit status/completion code. Most popular ones are 0, 1, 2, -3, and 12.
+Assuming these are UNIX error codes (warning: they may not be!), they could be
+interpreted as follows:
+- 1, or EPERM: Operation not permitted
+- 2, or ENOENT: No such file or directory
+- 3, or ESRCH: No such process
+- 12, or ENOMEM: Out of memory
 
 3.32 effective_queue_duration
 
-The amount of time that the job was eligible for scheduling.
+The amount of time, in seconds, that the job was eligible for scheduling.
 
 
 4. Contact info

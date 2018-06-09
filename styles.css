@@ -24,9 +24,10 @@ html, body {
 }
 
 .atlas-avatar {
-  width: 148px;
-  height: 148px;
-  border-radius: 148px;
+  border-radius: 50px;
+  width: 128px;
+  height: 188px;
+  object-fit: cover;
   padding: 24px;
 }
 
@@ -194,11 +195,20 @@ _:-ms-input-placeholder, :root .demo-graph {
   font-size: 1em;
 }
 
-.demo-updates .mdl-card__title {
+.news-trace .mdl-card__title {
   min-height: 200px;
-  background-image: url('images/dog.png');
-  background-position: 90% 100%;
+  background-image: url('images/trace.png');
+  background-size: auto 80%;
   background-repeat: no-repeat;
+  background-position: 100% 20%;
+}
+
+.news-pub .mdl-card__title {
+  min-height: 200px;
+  background-image: url('images/pub.png');
+  background-size: auto 70%;
+  background-repeat: no-repeat;
+  background-position: 90% 30%;
 }
 
 .demo-cards .mdl-card__actions a {

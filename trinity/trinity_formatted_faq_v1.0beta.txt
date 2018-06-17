@@ -28,7 +28,9 @@ dataset consists of 25237 multi-node jobs issued by 88 users and collected by
 MOAB. Collected data include: timestampts for job stages
 from submission to termination, job properties such as size and owner, the job's
 return status, and a time budget per job that if exceeded causes the job to be
-killed. This dataset is a processed variant of the raw Trinity dataset. Job events have been processed to return a job-level view of the trace rather than an event-level view.
+killed. This dataset is a processed variant of the raw Trinity dataset. Job
+events have been processed to return a job-level view of the trace rather than
+an event-level view.
 
 
 2. Scheduling policy

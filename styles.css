@@ -23,6 +23,11 @@ html, body {
   height: 196px;
 }
 
+.cmu-logo {
+  width: 196px;
+  height: 49px;
+}
+
 .atlas-org {
   width: 128px;
   height: auto;
